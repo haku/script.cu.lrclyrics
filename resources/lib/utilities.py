@@ -169,7 +169,7 @@ class Song:
             song.artist, song.title = get_artist_from_filename( song.filepath )
 
         if (song.artist == "Unknown"):
-            raw_title = song.title
+            raw_title = song.title.replace("_", " ")
 
             sep = raw_title.find(" - ")
             if sep > 1:
