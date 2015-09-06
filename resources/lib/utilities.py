@@ -168,6 +168,23 @@ class Song:
         if ( song.filepath and ( (not song.title) or (not song.artist) or (__addon__.getSetting( "read_filename" ) == "true") ) ):
             song.artist, song.title = get_artist_from_filename( song.filepath )
 
+        if (song.artist == "Unknown"):
+            raw_title = song.title
+
+            sep = raw_title.find(" - ")
+            if sep > 1:
+                song.artist = raw_title[:sep].strip()
+
+            sep = raw_title.rfind(" - ")
+            if sep > 1:
+                song.title = raw_title[sep + 3:].strip()
+
+            sep = song.title.rfind(".")
+            if sep > 1:
+                song.title = song.title[:sep].strip()
+
+            log("Parsed: '%s' --> '%s' - '%s'." % (raw_title, song.artist, song.title))
+
         if __addon__.getSetting( "clean_title" ) == "true":
             song.title = re.sub(r'\([^\)]*\)$', '', song.title)
         
